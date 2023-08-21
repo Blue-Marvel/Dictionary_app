@@ -13,7 +13,7 @@ class _DictionaryState extends State<Dictionary> {
   List<Definition> defList = [];
   TextEditingController textController = TextEditingController();
   String value = 'Enter word to search';
-  String word = 'me';
+  String word = '';
 
   @override
   void initState() {
