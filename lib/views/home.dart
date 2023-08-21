@@ -15,21 +15,12 @@ class _DictionaryState extends State<Dictionary> {
   String value = 'Enter word to search';
   String word = '';
 
-  @override
-  void initState() {
-    super.initState();
-    _getData();
-  }
-
-  onClick() {
+  onClick() async {
+    word = textController.text.toString().trim();
+    defList = await DictonaryServices.fetchDefintiion(word: word);
     setState(() {
-      word = textController.text.toString().trim();
       value = defList[0].definition;
     });
-  }
-
-  _getData() async {
-    defList = await DictonaryServices.fetchDefintiion(word: word);
   }
 
   @override
@@ -40,49 +31,42 @@ class _DictionaryState extends State<Dictionary> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => Focus.of(context).unfocus,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Dictionary App',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Dictionary App',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                TextFormField(
-                  controller: textController,
-                  decoration: const InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          style: BorderStyle.solid,
-                          color: Colors.blue,
-                          width: 2),
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          style: BorderStyle.solid,
-                          color: Colors.blue,
-                          width: 2),
-                    ),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              TextFormField(
+                controller: textController,
+                decoration: const InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        style: BorderStyle.solid, color: Colors.blue, width: 2),
+                  ),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        style: BorderStyle.solid, color: Colors.blue, width: 2),
                   ),
                 ),
-                const SizedBox(height: 12),
-                Text(value),
-                const SizedBox(height: 12),
-                ElevatedButton(
-                  onPressed: onClick,
-                  child: const Text('Search'),
-                ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 12),
+              Text(value),
+              const SizedBox(height: 12),
+              ElevatedButton(
+                onPressed: onClick,
+                child: const Text('Search'),
+              ),
+            ],
           ),
         ),
       ),
