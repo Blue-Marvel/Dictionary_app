@@ -15,10 +15,8 @@ class DictonaryServices {
       final defData = (data[0]["meanings"][0]["definitions"] as List);
       final definition = List<Definition>.from(
           defData.map((definition) => Definition.fromJson(definition)));
-      print(definition[0].definition);
       return definition;
     } catch (e) {
-      print(e.toString());
       rethrow;
     }
   }
